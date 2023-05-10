@@ -1,0 +1,56 @@
+version: '3.9'
+services:
+  voicevox:
+    image: voicevox/voicevox_engine:nvidia-0.14.4@sha256:1817f3b6c15d257a9475ba000319da4405b1a9b6b2123ddb0363abae30b5e5ce
+    hostname: voicevox
+    container_name: voicevox__voicevox
+    restart: unless-stopped
+
+    networks:
+      - default
+
+    deploy:
+      resources:
+        limits:
+          memory: 16g
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+
+  cloudflared:
+    image: cloudflare/cloudflared:2023.4.1-amd64@sha256:1d4e7f464d3cecccf37706968197a8bf97bc7cd1a99f2088361814e337908684
+    hostname: cloudflared
+    container_name: voicevox__cloudflared
+    restart: unless-stopped
+
+    environment:
+      TUNNEL_METRICS: 0.0.0.0:9126
+      TUNNEL_LOGFILE: /dev/stdout
+
+    command: tunnel run --token ${TUNNEL_TOKEN}
+    user: root
+
+    networks:
+      default:
+      outband:
+      prometheus__cloudflared:
+        aliases:
+          - voicevox__cloudflared
+
+    deploy:
+      resources:
+        limits:
+          memory: 128m
+
+networks:
+  prometheus__cloudflared:
+    name: prometheus__cloudflared
+    external: true
+
+  default:
+    name: voicevox__default
+    internal: true
+
+  outband:
+    name: voicevox__outband
