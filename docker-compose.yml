@@ -25,7 +25,7 @@ services:
               capabilities: [gpu]
 
   cloudflared:
-    image: cloudflare/cloudflared:2024.9.1-amd64@sha256:c9206bb54b6eccf534d3ce748dffa9358f1d744f7605ef778383833e7a81a0e9
+    image: cloudflare/cloudflared:2024.10.1-amd64@sha256:119c1712ba89bfb32a404ef6b949284519a99f3de5c1202f483a6800fd1c638e
     hostname: cloudflared
     container_name: voicevox__cloudflared
     restart: unless-stopped
