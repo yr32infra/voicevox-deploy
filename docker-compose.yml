@@ -9,20 +9,12 @@ services:
     networks:
       - default
 
+    runtime: nvidia
+
     deploy:
       resources:
         limits:
           memory: 16g
-        reservations:
-          devices:
-            - driver: nvidia
-              # Fix for docker-ce 27.3.x bugs.
-              # refs:
-              #   https://x.com/yanorei32/status/1840455188928405554
-              #   https://github.com/moby/moby/pull/48483
-              #   https://docs.docker.com/compose/how-tos/gpu-support/
-              count: all
-              capabilities: [gpu]
 
   cloudflared:
     image: cloudflare/cloudflared:2025.8.0-amd64@sha256:bbc00d1c2add301fbd261aa5a38df9dc9844e7bf7058863479a9620d57013fda
