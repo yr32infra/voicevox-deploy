@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   voicevox:
-    image: voicevox/voicevox_engine:nvidia-0.14.4@sha256:1817f3b6c15d257a9475ba000319da4405b1a9b6b2123ddb0363abae30b5e5ce
+    image: voicevox/voicevox_engine:nvidia-0.24.1@sha256:07c2f53a61ad65ba73539ac759212127ff9c95a3815fff14c6b6f4904db89a98
     hostname: voicevox
     container_name: voicevox__voicevox
     restart: unless-stopped
